@@ -30,7 +30,7 @@ library(stringr)
 activity$datetime<-strptime(paste(activity$date,str_pad(activity$interval,4,pad="0")),format="%Y-%m-%d %H%M")
 ```
 
-#What is the mean total number of steps taken per day?
+##What is the mean total number of steps taken per day?
 
 ```r
 totalDailySteps<-tapply(activity$steps,activity$date,sum)
@@ -64,7 +64,7 @@ median(totalDailySteps,na.rm=TRUE)
 ## [1] 10765
 ```
 
-#What is the average daily activity pattern?
+##What is the average daily activity pattern?
 
 ```r
 meanDailyStepsbytime<-aggregate(activity$steps,by=list(activity$interval),mean,na.rm=TRUE)
@@ -84,7 +84,7 @@ meanDailyStepsbytime[which.max(meanDailyStepsbytime$x),"Group.1"]
 ## [1] 835
 ```
 
-#Inputting missing values
+##Inputting missing values
 
 There are 
 
@@ -141,22 +141,16 @@ median(totalDailySteps)
 ## [1] 10766.19
 ```
 
-#Are there differences in activity patterns between weekdays and weekends?
+##Are there differences in activity patterns between weekdays and weekends?
 
 ```r
 activity$weekday<-weekdays(activity$datetime)
 activity$weekdaytype<-as.factor(with(activity, ifelse(weekday %in% c("Saturday","Sunday"),"Weekend","Weekday")))
 meanDailyStepsbyweekdaytime<-aggregate(activity$steps,by=list(activity$weekdaytype,activity$interval),mean)
-qplot(Group.1,x,data=meanDailyStepsbytime,geom="line",xlab="interval",ylab="Mean daily steps")
-```
-
-![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13-1.png) 
-
-```r
 qplot(Group.2,x,data=meanDailyStepsbyweekdaytime,geom="line",xlab="interval",ylab="Mean daily steps",facets=.~Group.1)
 ```
 
-![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13-2.png) 
+![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13-1.png) 
 
 
 

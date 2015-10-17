@@ -29,7 +29,7 @@ activity$datetime<-strptime(paste(activity$date,str_pad(activity$interval,4,pad=
 
 ```
 
-#What is the mean total number of steps taken per day?
+##What is the mean total number of steps taken per day?
 ```{r, echo=TRUE}
 totalDailySteps<-tapply(activity$steps,activity$date,sum)
 library(ggplot2)
@@ -46,7 +46,7 @@ The median number of steps per day is given by
 median(totalDailySteps,na.rm=TRUE)
 ```
 
-#What is the average daily activity pattern?
+##What is the average daily activity pattern?
 ```{r,echo=TRUE}
 meanDailyStepsbytime<-aggregate(activity$steps,by=list(activity$interval),mean,na.rm=TRUE)
 library(ggplot2)
@@ -59,7 +59,7 @@ The most active 5 minute interval is
 meanDailyStepsbytime[which.max(meanDailyStepsbytime$x),"Group.1"]
 ```
 
-#Inputting missing values
+##Inputting missing values
 
 There are 
 ```{r,echo=TRUE}
@@ -95,12 +95,11 @@ The median number of steps per day is given by
 median(totalDailySteps)
 ```
 
-#Are there differences in activity patterns between weekdays and weekends?
+##Are there differences in activity patterns between weekdays and weekends?
 ```{r, echo=TRUE}
 activity$weekday<-weekdays(activity$datetime)
 activity$weekdaytype<-as.factor(with(activity, ifelse(weekday %in% c("Saturday","Sunday"),"Weekend","Weekday")))
 meanDailyStepsbyweekdaytime<-aggregate(activity$steps,by=list(activity$weekdaytype,activity$interval),mean)
-qplot(Group.1,x,data=meanDailyStepsbytime,geom="line",xlab="interval",ylab="Mean daily steps")
 qplot(Group.2,x,data=meanDailyStepsbyweekdaytime,geom="line",xlab="interval",ylab="Mean daily steps",facets=.~Group.1)
 
 ```
